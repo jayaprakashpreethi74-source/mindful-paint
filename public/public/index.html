@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Paint - Collaborative Art</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="header-left">
+                <button id="back-btn" class="back-btn hidden">← Back</button>
+                <h1>Mindful Paint</h1>
+            </div>
+            <div class="mode-selector">
+                <button id="solo-btn" class="active">Solo / Zen</button>
+                <button id="duo-btn">Collaborate</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="canvas-wrapper">
+                <canvas id="drawing-board"></canvas>
+            </div>
+
+            <aside class="tools-panel">
+                <div class="tool-nav">
+                    <button class="nav-icon" data-section="palette-section" title="Colors">🎨</button>
+                    <button class="nav-icon" data-section="brushes-section" title="Brushes">🖌️</button>
+                    <button class="nav-icon" data-section="shapes-section" title="Shapes">📐</button>
+                    <button class="nav-icon" data-section="zen-section" title="Zen">🧘</button>
+                </div>
+                <button id="scroll-up" class="scroll-btn">▲</button>
+                <div class="tools-scroll-container">
+                    <div id="palette-section" class="tool-group">
+                        <h3>Palette</h3>
+                        <div class="color-palette">
+                            <div class="color-swatch active" style="background-color: #2D3436;" data-color="#2D3436">
+                            </div>
+                            <div class="color-swatch" style="background-color: #6C5B7B;" data-color="#6C5B7B"></div>
+                            <div class="color-swatch" style="background-color: #C06C84;" data-color="#C06C84"></div>
+                            <div class="color-swatch" style="background-color: #F67280;" data-color="#F67280"></div>
+                            <div class="color-swatch" style="background-color: #F8B195;" data-color="#F8B195"></div>
+                            <div class="color-swatch" style="background-color: #A8E6CF;" data-color="#A8E6CF"></div>
+                            <div class="color-swatch" style="background-color: #DCEDC1;" data-color="#DCEDC1"></div>
+                        </div>
+                        <input type="color" id="custom-color" value="#2D3436">
+                    </div>
+
+                    <div id="brushes-section" class="tool-group">
+                        <h3>Brushes</h3>
+                        <div class="btn-grid">
+                            <button class="tool-btn active" data-tool="pen">Pen</button>
+                            <button class="tool-btn" data-tool="brush">Soft</button>
+                            <button class="tool-btn" data-tool="marker">Marker</button>
+                            <button class="tool-btn" data-tool="spray">Spray</button>
+                        </div>
+                    </div>
+
+                    <div id="shapes-section" class="tool-group">
+                        <h3>Shapes</h3>
+                        <div class="btn-grid">
+                            <button class="tool-btn" data-tool="line">Line</button>
+                            <button class="tool-btn" data-tool="rectangle">Rect</button>
+                            <button class="tool-btn" data-tool="circle">Circle</button>
+                            <button class="tool-btn" data-tool="ellipse">Ellipse</button>
+                            <button class="tool-btn" data-tool="triangle">Triangle</button>
+                            <button class="tool-btn" data-tool="star">Star</button>
+                        </div>
+                    </div>
+
+                    <div id="zen-section" class="tool-group">
+                        <h3>Zen Tools</h3>
+                        <button class="tool-btn" id="ai-partner-btn">Zen Partner</button>
+                        <button class="tool-btn" id="kaleidoscope-btn">Kaleidoscope</button>
+                        <button class="tool-btn" id="breathing-btn">Breathing</button>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="symmetry-toggle">
+                            <span class="slider round"></span> Symmetry
+                        </label>
+                    </div>
+
+                    <div class="tool-group actions">
+                        <button id="undo-btn" class="action-btn">↶ Undo</button>
+                        <button id="redo-btn" class="action-btn">↷ Redo</button>
+                        <button id="eraser-btn" class="tool-btn" data-tool="eraser">Eraser</button>
+                        <button id="clear-btn" class="action-btn">Clear</button>
+                        <button id="save-btn" class="action-btn">Save</button>
+                    </div>
+                </div>
+                <button id="scroll-down" class="scroll-btn">▼</button>
+            </aside>
+        </main>
+
+        <div id="room-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Join a Room</h2>
+                <input type="text" id="room-input" placeholder="Enter Room ID">
+                <button id="join-room-btn">Join</button>
+                <button id="create-room-btn">Create New Room</button>
+                <button id="close-modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
